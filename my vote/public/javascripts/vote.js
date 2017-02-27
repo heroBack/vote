@@ -34,7 +34,6 @@ $(document).ready(function($) {
 		delteStorage: function(key) {
 			localStorage.removeItem(key);
 		},
-
 		/**
 		 * [拼接首页用户信息字符串]
 		 * @param  {Array} objs [用户信息数组]
@@ -194,7 +193,9 @@ $(document).ready(function($) {
 				var _this = this;
 				var id = $(this).attr('id');
 				var voteUser = voteFn.getStorage('voteUser');
+				// 这个是判断是不是已经登录了
 				if (voteUser) {
+					// 如果已经登录了就像后台发送请求投票
 					voteFn.voteRequest(id, voteUser.id, this);
 				}else {
 					$('.mask').show();
@@ -347,7 +348,7 @@ $(document).ready(function($) {
 				var userDetailUrl = /(.*)index/.exec(url)[1] + 'detail/' + voteUser.id;
 				window.location = userDetailUrl;
 			});
-		}
+		};
 		$.ajax({
 			url: '/vote/index/data?limit=10&offset=0',
 			type: 'GET',
@@ -467,7 +468,7 @@ $(document).ready(function($) {
 				data = JSON.parse(data);
 				if(data.errno == 0){
 					$('.personal').html(voteFn.detailPersonalStr(data.data));
-					$('.vflist').html(voteFn.detailVoterStr(data.data.vfriend))
+					$('.vflist').html(voteFn.detailVoterStr(data.data.vfriend));
 				}else {
 					alert(data.msg);
 				}
